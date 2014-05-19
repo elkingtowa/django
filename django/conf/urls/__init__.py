@@ -6,14 +6,14 @@ from django.core.urlresolvers import (RegexURLPattern,
 from django.core.exceptions import ImproperlyConfigured
 from django.utils import six
 from django.utils.deprecation import RemovedInDjango20Warning
-
+from django.views import defaults
 
 __all__ = ['handler400', 'handler403', 'handler404', 'handler500', 'include', 'patterns', 'url']
 
-handler400 = 'django.views.defaults.bad_request'
-handler403 = 'django.views.defaults.permission_denied'
-handler404 = 'django.views.defaults.page_not_found'
-handler500 = 'django.views.defaults.server_error'
+handler400 = defaults.bad_request
+handler403 = defaults.permission_denied
+handler404 = defaults.page_not_found
+handler500 = defaults.server_error
 
 
 def include(arg, namespace=None, app_name=None):
