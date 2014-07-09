@@ -174,7 +174,7 @@ class SeleniumAdminViewsFirefoxTests(AdminSeleniumWebDriverTestCase):
 
         self.selenium.get(object_url)
 
-        self.selenium.get(object_url)
+#        self.selenium.get(object_url)
 
         # Comment next line and tests will pass
 #        self.selenium.get(object_url)
