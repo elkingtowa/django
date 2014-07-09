@@ -170,6 +170,8 @@ class SeleniumAdminViewsFirefoxTests(AdminSeleniumWebDriverTestCase):
 
         # Comment next line and tests will pass
         self.selenium.get(object_url)
+
+        self.selenium.get(object_url)
 #        self.selenium.find_element_by_css_selector('#id_name').send_keys(' hello')
 
         # The slugs got prepopulated didn't change since they were originally not empty
