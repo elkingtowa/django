@@ -201,7 +201,7 @@ class SeleniumAdminViewsFirefoxTests(AdminSeleniumWebDriverTestCase):
         self.admin_login(username='super', password='secret', login_url='/test_admin/admin/')
         self.selenium.get('%s%s' % (self.live_server_url,
             '/test_admin/admin/admin_views/picture/add/'))
-        element = self.selenium.switch_to_active_element()
+#        element = self.selenium.switch_to_active_element()
 
 #        self.assertEqual(
 #            ,
