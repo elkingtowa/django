@@ -203,7 +203,7 @@ class SeleniumAdminViewsFirefoxTests(AdminSeleniumWebDriverTestCase):
 
         # Save the object
         self.selenium.find_element_by_xpath('//input[@value="Save"]').click()
-#        self.wait_page_loaded()
+        self.wait_page_loaded()
 
 #        self.selenium.get(object_url)
 #        self.selenium.find_element_by_css_selector('#id_name').send_keys(' hello')
