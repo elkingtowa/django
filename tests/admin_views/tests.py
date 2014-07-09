@@ -202,7 +202,7 @@ class SeleniumAdminViewsFirefoxTests(AdminSeleniumWebDriverTestCase):
         self.assertEqual(slug2, 'option-two-main-name-best')
 
         # Save the object
-#        self.selenium.find_element_by_xpath('//input[@value="Save"]').click()
+        self.selenium.find_element_by_xpath('//input[@value="Save"]').click()
 #        self.wait_page_loaded()
 
 #        self.selenium.get(object_url)
