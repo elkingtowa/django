@@ -130,7 +130,7 @@ class SeleniumAdminViewsFirefoxTests(AdminSeleniumWebDriverTestCase):
         self.assertEqual(slug2, 'option-one-tabular-inline-ignored-characters')
 
         # Save and check that everything is properly stored in the database
-        self.selenium.find_element_by_xpath('//input[@value="Save"]').click()
+#        self.selenium.find_element_by_xpath('//input[@value="Save"]').click()
 #        self.wait_page_loaded()
 #        self.assertEqual(MainPrepopulated.objects.all().count(), 1)
 #        MainPrepopulated.objects.get(
