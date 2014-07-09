@@ -170,66 +170,6 @@ class SeleniumAdminViewsFirefoxTests(AdminSeleniumWebDriverTestCase):
             slug2='option-one-tabular-inline-ignored-characters',
         )
 
-    def test_populate_existing_object(self):
-        """
-        Ensure that the prepopulation works for existing objects too, as long
-        as the original field is empty.
-        Refs #19082.
-        """
-        # Slugs are empty to start with.
-        item = MainPrepopulated.objects.create(
-            name=' this is the mAin nÀMë',
-            pubdate='2012-02-18',
-            status='option two',
-            slug1='',
-            slug2='',
-        )
-        self.admin_login(username='super',
-                         password='secret',
-                         login_url='/test_admin/admin/')
-
-        object_url = '%s%s' % (
-            self.live_server_url,
-            '/test_admin/admin/admin_views/mainprepopulated/{}/'.format(item.id))
-
-        self.selenium.get(object_url)
-        self.selenium.find_element_by_css_selector('#id_name').send_keys(' the best')
-
-        # The slugs got prepopulated since they were originally empty
-        slug1 = self.selenium.find_element_by_css_selector('#id_slug1').get_attribute('value')
-        slug2 = self.selenium.find_element_by_css_selector('#id_slug2').get_attribute('value')
-        self.assertEqual(slug1, 'main-name-best-2012-02-18')
-        self.assertEqual(slug2, 'option-two-main-name-best')
-
-        # Save the object
-        self.selenium.find_element_by_xpath('//input[@value="Save"]').click()
-        self.wait_page_loaded()
-
-        self.selenium.get(object_url)
-        self.selenium.find_element_by_css_selector('#id_name').send_keys(' hello')
-
-        # The slugs got prepopulated didn't change since they were originally not empty
-        slug1 = self.selenium.find_element_by_css_selector('#id_slug1').get_attribute('value')
-        slug2 = self.selenium.find_element_by_css_selector('#id_slug2').get_attribute('value')
-        self.assertEqual(slug1, 'main-name-best-2012-02-18')
-        self.assertEqual(slug2, 'option-two-main-name-best')
-
-    def test_collapsible_fieldset(self):
-        """
-        Test that the 'collapse' class in fieldsets definition allows to
-        show/hide the appropriate field section.
-        """
-        self.admin_login(username='super', password='secret', login_url='/test_admin/admin/')
-        self.selenium.get('%s%s' % (self.live_server_url,
-            '/test_admin/admin/admin_views/article/add/'))
-        self.assertFalse(self.selenium.find_element_by_id('id_title').is_displayed())
-        self.selenium.find_elements_by_link_text('Show')[0].click()
-        self.assertTrue(self.selenium.find_element_by_id('id_title').is_displayed())
-        self.assertEqual(
-            self.selenium.find_element_by_id('fieldsetcollapser0').text,
-            "Hide"
-        )
-
     def test_first_field_focus(self):
         """JavaScript-assisted auto-focus on first usable form field."""
         # First form field has a single widget
