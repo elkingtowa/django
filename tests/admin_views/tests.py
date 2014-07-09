@@ -70,7 +70,7 @@ class SeleniumAdminViewsFirefoxTests(AdminSeleniumWebDriverTestCase):
     fixtures = ['admin-views-users.xml']
     webdriver_class = 'selenium.webdriver.firefox.webdriver.WebDriver'
 
-    def test_aprepopulated_fields(self):
+    def test_prepopulated_fields(self):
         """
         Ensure that the JavaScript-automated prepopulated fields work with the
         main form and with stacked and tabular inlines.
