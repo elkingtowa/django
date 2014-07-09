@@ -170,6 +170,22 @@ class SeleniumAdminViewsFirefoxTests(AdminSeleniumWebDriverTestCase):
             slug2='option-one-tabular-inline-ignored-characters',
         )
 
+    def test_collapsible_fieldset(self):
+        """
+        Test that the 'collapse' class in fieldsets definition allows to
+        show/hide the appropriate field section.
+        """
+        self.admin_login(username='super', password='secret', login_url='/test_admin/admin/')
+        self.selenium.get('%s%s' % (self.live_server_url,
+            '/test_admin/admin/admin_views/article/add/'))
+        self.assertFalse(self.selenium.find_element_by_id('id_title').is_displayed())
+        self.selenium.find_elements_by_link_text('Show')[0].click()
+        self.assertTrue(self.selenium.find_element_by_id('id_title').is_displayed())
+        self.assertEqual(
+            self.selenium.find_element_by_id('fieldsetcollapser0').text,
+            "Hide"
+        )
+
     def test_first_field_focus(self):
         """JavaScript-assisted auto-focus on first usable form field."""
         # First form field has a single widget
