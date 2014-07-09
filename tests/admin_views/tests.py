@@ -199,10 +199,10 @@ class SeleniumAdminViewsFirefoxTests(AdminSeleniumWebDriverTestCase):
         self.admin_login(username='super', password='secret', login_url='/test_admin/admin/')
         self.selenium.get('%s%s' % (self.live_server_url,
             '/test_admin/admin/admin_views/picture/add/'))
-#        self.assertEqual(
-#            self.selenium.switch_to_active_element(),
-#            self.selenium.find_element_by_id('id_name')
-#        )
+        self.assertEqual(
+            self.selenium.switch_to_active_element(),
+            self.selenium.find_element_by_id('id_name')
+        )
 
         # First form field has a MultiWidget
 #        self.selenium.get('%s%s' % (self.live_server_url,
