@@ -183,8 +183,8 @@ class SeleniumAdminViewsFirefoxTests(AdminSeleniumWebDriverTestCase):
         show/hide the appropriate field section.
         """
         self.admin_login(username='super', password='secret', login_url='/test_admin/admin/')
-        self.selenium.get('%s%s' % (self.live_server_url,
-            '/test_admin/admin/admin_views/article/add/'))
+#        self.selenium.get('%s%s' % (self.live_server_url,
+#            '/test_admin/admin/admin_views/article/add/'))
 #        self.assertFalse(self.selenium.find_element_by_id('id_title').is_displayed())
 #        self.selenium.find_elements_by_link_text('Show')[0].click()
 #        self.assertTrue(self.selenium.find_element_by_id('id_title').is_displayed())
