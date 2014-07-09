@@ -91,33 +91,33 @@ class SeleniumAdminViewsFirefoxTests(AdminSeleniumWebDriverTestCase):
 
         # Stacked inlines ----------------------------------------------------
         # Initial inline
-#        self.selenium.find_element_by_css_selector('#id_relatedprepopulated_set-0-pubdate').send_keys('2011-12-17')
-#        self.get_select_option('#id_relatedprepopulated_set-0-status', 'option one').click()
-#        self.selenium.find_element_by_css_selector('#id_relatedprepopulated_set-0-name').send_keys(' here is a sŤāÇkeð   inline !  ')
-#        slug1 = self.selenium.find_element_by_css_selector('#id_relatedprepopulated_set-0-slug1').get_attribute('value')
-#        slug2 = self.selenium.find_element_by_css_selector('#id_relatedprepopulated_set-0-slug2').get_attribute('value')
-#        self.assertEqual(slug1, 'here-stacked-inline-2011-12-17')
-#        self.assertEqual(slug2, 'option-one-here-stacked-inline')
+        self.selenium.find_element_by_css_selector('#id_relatedprepopulated_set-0-pubdate').send_keys('2011-12-17')
+        self.get_select_option('#id_relatedprepopulated_set-0-status', 'option one').click()
+        self.selenium.find_element_by_css_selector('#id_relatedprepopulated_set-0-name').send_keys(' here is a sŤāÇkeð   inline !  ')
+        slug1 = self.selenium.find_element_by_css_selector('#id_relatedprepopulated_set-0-slug1').get_attribute('value')
+        slug2 = self.selenium.find_element_by_css_selector('#id_relatedprepopulated_set-0-slug2').get_attribute('value')
+        self.assertEqual(slug1, 'here-stacked-inline-2011-12-17')
+        self.assertEqual(slug2, 'option-one-here-stacked-inline')
 
-#        # Add an inline
-#        self.selenium.find_elements_by_link_text('Add another Related prepopulated')[0].click()
-#        self.selenium.find_element_by_css_selector('#id_relatedprepopulated_set-1-pubdate').send_keys('1999-01-25')
-#        self.get_select_option('#id_relatedprepopulated_set-1-status', 'option two').click()
-#        self.selenium.find_element_by_css_selector('#id_relatedprepopulated_set-1-name').send_keys(' now you haVe anöther   sŤāÇkeð  inline with a very ... loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooog text... ')
-#        slug1 = self.selenium.find_element_by_css_selector('#id_relatedprepopulated_set-1-slug1').get_attribute('value')
-#        slug2 = self.selenium.find_element_by_css_selector('#id_relatedprepopulated_set-1-slug2').get_attribute('value')
-#        self.assertEqual(slug1, 'now-you-have-another-stacked-inline-very-loooooooo')  # 50 characters maximum for slug1 field
-#        self.assertEqual(slug2, 'option-two-now-you-have-another-stacked-inline-very-looooooo')  # 60 characters maximum for slug2 field
+        # Add an inline
+        self.selenium.find_elements_by_link_text('Add another Related prepopulated')[0].click()
+        self.selenium.find_element_by_css_selector('#id_relatedprepopulated_set-1-pubdate').send_keys('1999-01-25')
+        self.get_select_option('#id_relatedprepopulated_set-1-status', 'option two').click()
+        self.selenium.find_element_by_css_selector('#id_relatedprepopulated_set-1-name').send_keys(' now you haVe anöther   sŤāÇkeð  inline with a very ... loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooog text... ')
+        slug1 = self.selenium.find_element_by_css_selector('#id_relatedprepopulated_set-1-slug1').get_attribute('value')
+        slug2 = self.selenium.find_element_by_css_selector('#id_relatedprepopulated_set-1-slug2').get_attribute('value')
+        self.assertEqual(slug1, 'now-you-have-another-stacked-inline-very-loooooooo')  # 50 characters maximum for slug1 field
+        self.assertEqual(slug2, 'option-two-now-you-have-another-stacked-inline-very-looooooo')  # 60 characters maximum for slug2 field
 
-#        # Tabular inlines ----------------------------------------------------
-#        # Initial inline
-#        self.selenium.find_element_by_css_selector('#id_relatedprepopulated_set-2-0-pubdate').send_keys('1234-12-07')
-#        self.get_select_option('#id_relatedprepopulated_set-2-0-status', 'option two').click()
-#        self.selenium.find_element_by_css_selector('#id_relatedprepopulated_set-2-0-name').send_keys('And now, with a tÃbűlaŘ inline !!!')
-#        slug1 = self.selenium.find_element_by_css_selector('#id_relatedprepopulated_set-2-0-slug1').get_attribute('value')
-#        slug2 = self.selenium.find_element_by_css_selector('#id_relatedprepopulated_set-2-0-slug2').get_attribute('value')
-#        self.assertEqual(slug1, 'and-now-tabular-inline-1234-12-07')
-#        self.assertEqual(slug2, 'option-two-and-now-tabular-inline')
+        # Tabular inlines ----------------------------------------------------
+        # Initial inline
+        self.selenium.find_element_by_css_selector('#id_relatedprepopulated_set-2-0-pubdate').send_keys('1234-12-07')
+        self.get_select_option('#id_relatedprepopulated_set-2-0-status', 'option two').click()
+        self.selenium.find_element_by_css_selector('#id_relatedprepopulated_set-2-0-name').send_keys('And now, with a tÃbűlaŘ inline !!!')
+        slug1 = self.selenium.find_element_by_css_selector('#id_relatedprepopulated_set-2-0-slug1').get_attribute('value')
+        slug2 = self.selenium.find_element_by_css_selector('#id_relatedprepopulated_set-2-0-slug2').get_attribute('value')
+        self.assertEqual(slug1, 'and-now-tabular-inline-1234-12-07')
+        self.assertEqual(slug2, 'option-two-and-now-tabular-inline')
 
 #        # Add an inline
 #        self.selenium.find_elements_by_link_text('Add another Related prepopulated')[1].click()
