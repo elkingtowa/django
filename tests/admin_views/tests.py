@@ -3528,6 +3528,106 @@ class SeleniumAdminViewsFirefoxTests(AdminSeleniumWebDriverTestCase):
     fixtures = ['admin-views-users.xml']
     webdriver_class = 'selenium.webdriver.firefox.webdriver.WebDriver'
 
+    def test_prepopulated_fields(self):
+        """
+        Ensure that the JavaScript-automated prepopulated fields work with the
+        main form and with stacked and tabular inlines.
+        Refs #13068, #9264, #9983, #9784.
+        """
+        self.admin_login(username='super', password='secret', login_url='/test_admin/admin/')
+        self.selenium.get('%s%s' % (self.live_server_url,
+            '/test_admin/admin/admin_views/mainprepopulated/add/'))
+
+        # Main form ----------------------------------------------------------
+        self.selenium.find_element_by_css_selector('#id_pubdate').send_keys('2012-02-18')
+        self.get_select_option('#id_status', 'option two').click()
+        self.selenium.find_element_by_css_selector('#id_name').send_keys(' this is the mAin nÀMë and it\'s awεšome')
+        slug1 = self.selenium.find_element_by_css_selector('#id_slug1').get_attribute('value')
+        slug2 = self.selenium.find_element_by_css_selector('#id_slug2').get_attribute('value')
+        self.assertEqual(slug1, 'main-name-and-its-awesome-2012-02-18')
+        self.assertEqual(slug2, 'option-two-main-name-and-its-awesome')
+
+        # Stacked inlines ----------------------------------------------------
+        # Initial inline
+        self.selenium.find_element_by_css_selector('#id_relatedprepopulated_set-0-pubdate').send_keys('2011-12-17')
+        self.get_select_option('#id_relatedprepopulated_set-0-status', 'option one').click()
+        self.selenium.find_element_by_css_selector('#id_relatedprepopulated_set-0-name').send_keys(' here is a sŤāÇkeð   inline !  ')
+        slug1 = self.selenium.find_element_by_css_selector('#id_relatedprepopulated_set-0-slug1').get_attribute('value')
+        slug2 = self.selenium.find_element_by_css_selector('#id_relatedprepopulated_set-0-slug2').get_attribute('value')
+        self.assertEqual(slug1, 'here-stacked-inline-2011-12-17')
+        self.assertEqual(slug2, 'option-one-here-stacked-inline')
+
+        # Add an inline
+        self.selenium.find_elements_by_link_text('Add another Related prepopulated')[0].click()
+        self.selenium.find_element_by_css_selector('#id_relatedprepopulated_set-1-pubdate').send_keys('1999-01-25')
+        self.get_select_option('#id_relatedprepopulated_set-1-status', 'option two').click()
+        self.selenium.find_element_by_css_selector('#id_relatedprepopulated_set-1-name').send_keys(' now you haVe anöther   sŤāÇkeð  inline with a very ... loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooog text... ')
+        slug1 = self.selenium.find_element_by_css_selector('#id_relatedprepopulated_set-1-slug1').get_attribute('value')
+        slug2 = self.selenium.find_element_by_css_selector('#id_relatedprepopulated_set-1-slug2').get_attribute('value')
+        self.assertEqual(slug1, 'now-you-have-another-stacked-inline-very-loooooooo')  # 50 characters maximum for slug1 field
+        self.assertEqual(slug2, 'option-two-now-you-have-another-stacked-inline-very-looooooo')  # 60 characters maximum for slug2 field
+
+        # Tabular inlines ----------------------------------------------------
+        # Initial inline
+        self.selenium.find_element_by_css_selector('#id_relatedprepopulated_set-2-0-pubdate').send_keys('1234-12-07')
+        self.get_select_option('#id_relatedprepopulated_set-2-0-status', 'option two').click()
+        self.selenium.find_element_by_css_selector('#id_relatedprepopulated_set-2-0-name').send_keys('And now, with a tÃbűlaŘ inline !!!')
+        slug1 = self.selenium.find_element_by_css_selector('#id_relatedprepopulated_set-2-0-slug1').get_attribute('value')
+        slug2 = self.selenium.find_element_by_css_selector('#id_relatedprepopulated_set-2-0-slug2').get_attribute('value')
+        self.assertEqual(slug1, 'and-now-tabular-inline-1234-12-07')
+        self.assertEqual(slug2, 'option-two-and-now-tabular-inline')
+
+        # Add an inline
+        self.selenium.find_elements_by_link_text('Add another Related prepopulated')[1].click()
+        self.selenium.find_element_by_css_selector('#id_relatedprepopulated_set-2-1-pubdate').send_keys('1981-08-22')
+        self.get_select_option('#id_relatedprepopulated_set-2-1-status', 'option one').click()
+        self.selenium.find_element_by_css_selector('#id_relatedprepopulated_set-2-1-name').send_keys('a tÃbűlaŘ inline with ignored ;"&*^\%$#@-/`~ characters')
+        slug1 = self.selenium.find_element_by_css_selector('#id_relatedprepopulated_set-2-1-slug1').get_attribute('value')
+        slug2 = self.selenium.find_element_by_css_selector('#id_relatedprepopulated_set-2-1-slug2').get_attribute('value')
+        self.assertEqual(slug1, 'tabular-inline-ignored-characters-1981-08-22')
+        self.assertEqual(slug2, 'option-one-tabular-inline-ignored-characters')
+
+        # Save and check that everything is properly stored in the database
+        self.selenium.find_element_by_xpath('//input[@value="Save"]').click()
+        self.wait_page_loaded()
+        self.assertEqual(MainPrepopulated.objects.all().count(), 1)
+        MainPrepopulated.objects.get(
+            name=' this is the mAin nÀMë and it\'s awεšome',
+            pubdate='2012-02-18',
+            status='option two',
+            slug1='main-name-and-its-awesome-2012-02-18',
+            slug2='option-two-main-name-and-its-awesome',
+        )
+        self.assertEqual(RelatedPrepopulated.objects.all().count(), 4)
+        RelatedPrepopulated.objects.get(
+            name=' here is a sŤāÇkeð   inline !  ',
+            pubdate='2011-12-17',
+            status='option one',
+            slug1='here-stacked-inline-2011-12-17',
+            slug2='option-one-here-stacked-inline',
+        )
+        RelatedPrepopulated.objects.get(
+            name=' now you haVe anöther   sŤāÇkeð  inline with a very ... loooooooooooooooooo',  # 75 characters in name field
+            pubdate='1999-01-25',
+            status='option two',
+            slug1='now-you-have-another-stacked-inline-very-loooooooo',
+            slug2='option-two-now-you-have-another-stacked-inline-very-looooooo',
+        )
+        RelatedPrepopulated.objects.get(
+            name='And now, with a tÃbűlaŘ inline !!!',
+            pubdate='1234-12-07',
+            status='option two',
+            slug1='and-now-tabular-inline-1234-12-07',
+            slug2='option-two-and-now-tabular-inline',
+        )
+        RelatedPrepopulated.objects.get(
+            name='a tÃbűlaŘ inline with ignored ;"&*^\%$#@-/`~ characters',
+            pubdate='1981-08-22',
+            status='option one',
+            slug1='tabular-inline-ignored-characters-1981-08-22',
+            slug2='option-one-tabular-inline-ignored-characters',
+        )
+
     def test_populate_existing_object(self):
         """
         Ensure that the prepopulation works for existing objects too, as long
