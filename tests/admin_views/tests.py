@@ -168,7 +168,7 @@ class SeleniumAdminViewsFirefoxTests(AdminSeleniumWebDriverTestCase):
         self.selenium.find_element_by_xpath('//input[@value="Save"]').click()
         self.wait_page_loaded()
 
-        self.selenium.get(object_url)
+#        self.selenium.get(object_url)
 #        self.selenium.find_element_by_css_selector('#id_name').send_keys(' hello')
 
         # The slugs got prepopulated didn't change since they were originally not empty
@@ -183,8 +183,9 @@ class SeleniumAdminViewsFirefoxTests(AdminSeleniumWebDriverTestCase):
         show/hide the appropriate field section.
         """
         self.admin_login(username='super', password='secret', login_url='/test_admin/admin/')
-#        self.selenium.get('%s%s' % (self.live_server_url,
-#            '/test_admin/admin/admin_views/article/add/'))
+        # comment next line out and tests will pass
+        self.selenium.get('%s%s' % (self.live_server_url,
+            '/test_admin/admin/admin_views/article/add/'))
 #        self.assertFalse(self.selenium.find_element_by_id('id_title').is_displayed())
 #        self.selenium.find_elements_by_link_text('Show')[0].click()
 #        self.assertTrue(self.selenium.find_element_by_id('id_title').is_displayed())
