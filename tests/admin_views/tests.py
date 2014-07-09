@@ -119,18 +119,18 @@ class SeleniumAdminViewsFirefoxTests(AdminSeleniumWebDriverTestCase):
         self.assertEqual(slug1, 'and-now-tabular-inline-1234-12-07')
         self.assertEqual(slug2, 'option-two-and-now-tabular-inline')
 
-#        # Add an inline
-#        self.selenium.find_elements_by_link_text('Add another Related prepopulated')[1].click()
-#        self.selenium.find_element_by_css_selector('#id_relatedprepopulated_set-2-1-pubdate').send_keys('1981-08-22')
-#        self.get_select_option('#id_relatedprepopulated_set-2-1-status', 'option one').click()
-#        self.selenium.find_element_by_css_selector('#id_relatedprepopulated_set-2-1-name').send_keys('a tÃbűlaŘ inline with ignored ;"&*^\%$#@-/`~ characters')
-#        slug1 = self.selenium.find_element_by_css_selector('#id_relatedprepopulated_set-2-1-slug1').get_attribute('value')
-#        slug2 = self.selenium.find_element_by_css_selector('#id_relatedprepopulated_set-2-1-slug2').get_attribute('value')
-#        self.assertEqual(slug1, 'tabular-inline-ignored-characters-1981-08-22')
-#        self.assertEqual(slug2, 'option-one-tabular-inline-ignored-characters')
+        # Add an inline
+        self.selenium.find_elements_by_link_text('Add another Related prepopulated')[1].click()
+        self.selenium.find_element_by_css_selector('#id_relatedprepopulated_set-2-1-pubdate').send_keys('1981-08-22')
+        self.get_select_option('#id_relatedprepopulated_set-2-1-status', 'option one').click()
+        self.selenium.find_element_by_css_selector('#id_relatedprepopulated_set-2-1-name').send_keys('a tÃbűlaŘ inline with ignored ;"&*^\%$#@-/`~ characters')
+        slug1 = self.selenium.find_element_by_css_selector('#id_relatedprepopulated_set-2-1-slug1').get_attribute('value')
+        slug2 = self.selenium.find_element_by_css_selector('#id_relatedprepopulated_set-2-1-slug2').get_attribute('value')
+        self.assertEqual(slug1, 'tabular-inline-ignored-characters-1981-08-22')
+        self.assertEqual(slug2, 'option-one-tabular-inline-ignored-characters')
 
-#        # Save and check that everything is properly stored in the database
-#        self.selenium.find_element_by_xpath('//input[@value="Save"]').click()
+        # Save and check that everything is properly stored in the database
+        self.selenium.find_element_by_xpath('//input[@value="Save"]').click()
 #        self.wait_page_loaded()
 #        self.assertEqual(MainPrepopulated.objects.all().count(), 1)
 #        MainPrepopulated.objects.get(
