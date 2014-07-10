@@ -1,10 +1,13 @@
 from __future__ import unicode_literals
 
+import datetime
+
 from django.db import models
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.admin.utils import quote
 from django.core.urlresolvers import reverse, NoReverseMatch
+from django.utils import timezone
 from django.utils.translation import ugettext, ugettext_lazy as _
 from django.utils.encoding import smart_text
 from django.utils.encoding import python_2_unicode_compatible
@@ -22,7 +25,7 @@ class LogEntryManager(models.Manager):
 
 @python_2_unicode_compatible
 class LogEntry(models.Model):
-    action_time = models.DateTimeField(_('action time'), auto_now=True)
+    action_time = models.DateTimeField(_('action time'), editable=False)
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     content_type = models.ForeignKey(ContentType, blank=True, null=True)
     object_id = models.TextField(_('object id'), blank=True, null=True)
@@ -37,6 +40,11 @@ class LogEntry(models.Model):
         verbose_name_plural = _('log entries')
         db_table = 'django_admin_log'
         ordering = ('-action_time',)
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            self.action_time = timezone.now()
+        super(LogEntry, self).save(*args, **kwargs)
 
     def __repr__(self):
         return smart_text(self.action_time)
